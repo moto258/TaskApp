@@ -74,7 +74,7 @@
         <!--Input View Controller-->
         <scene sceneID="T47-gS-XnF">
             <objects>
-                <viewController id="dUs-BG-nLS" customClass="inputViewController" customModule="TaskApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="dUs-BG-nLS" customClass="InputViewController" customModule="TaskApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JWW-Yr-avW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -137,7 +137,7 @@
                     <navigationItem key="navigationItem" id="c9y-kd-mH9"/>
                     <connections>
                         <outlet property="contentsTextView" destination="5Ec-HQ-dI3" id="uNc-3S-HxK"/>
-                        <outlet property="dataPicker" destination="tN2-yC-dmF" id="5zZ-Tw-WkN"/>
+                        <outlet property="datePicker" destination="tN2-yC-dmF" id="xRt-nx-kcF"/>
                         <outlet property="titleTextField" destination="Vpq-wa-pKb" id="R5X-5z-XuZ"/>
                     </connections>
                 </viewController>
