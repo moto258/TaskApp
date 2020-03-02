@@ -10,9 +10,11 @@ import UIKit
 import RealmSwift
 import UserNotifications
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    
+    var searchBar: UISearchBar!
     
     // Realmインスタンスを取得する
     let realm = try! Realm()
@@ -27,6 +29,40 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Do any additional setup after loading the view.
         tableView.delegate = self
         tableView.dataSource = self
+        searchResult = realm.objects(Task.self)
+        setupSearchBar()
+    }
+    
+    func setupSearchBar() {
+        if let navigationBarFrame = navigationController?.navigationBar.bounds {
+            let searchBar: UISearchBar = UISearchBar(frame: navigationBarFrame)
+            searchBar.delegate = self
+            searchBar.placeholder = "カテゴリーを入力してください"
+            searchBar.keyboardType = UIKeyboardType.default
+            navigationItem.titleView = searchBar
+            navigationItem.titleView?.frame = searchBar.frame
+            self.searchBar = searchBar
+        }
+    }
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.showsCancelButton = true
+        return true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let realm = try! Realm()
+        if searchText == "" {
+            taskArray = realm.objects(Task.self)
+        } else {
+            taskArray = realm.objects(Task.self).filter("category BEGINSWITH %@", searchText)
+        }
+        tableView.reloadData()
     }
     
     // データの数（＝セルの数）を返すメソッド
@@ -90,6 +126,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
     }
+    
     
     // segueで画面遷移するときに呼ばれる
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
